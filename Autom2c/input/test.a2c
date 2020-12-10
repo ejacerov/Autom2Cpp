@@ -1,0 +1,19 @@
+Automata @ test{ estado a;  estado b; estado X1;
+ evento y; evento z; evento x;
+ from X1 (y) to b;
+ from b (z) to a;
+ from a (x) to X1;
+ from X1 (z) to a;
+ }
+ Automata @ test2{ estado a2;  estado b2;
+  evento y2; evento z2; evento x2;
+
+  from b2 (z2) to a2;
+  from a2 (x2) to b2;
+  loop a2 (y2);
+  }
+
+ print(test2);
+
+end;
+
