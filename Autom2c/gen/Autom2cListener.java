@@ -107,6 +107,16 @@ public interface Autom2cListener extends ParseTreeListener {
 	 */
 	void exitActions(Autom2cParser.ActionsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Autom2cParser#prints}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrints(Autom2cParser.PrintsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Autom2cParser#prints}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrints(Autom2cParser.PrintsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Autom2cParser#print}.
 	 * @param ctx the parse tree
 	 */
@@ -116,4 +126,24 @@ public interface Autom2cListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(Autom2cParser.PrintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Autom2cParser#tests}.
+	 * @param ctx the parse tree
+	 */
+	void enterTests(Autom2cParser.TestsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Autom2cParser#tests}.
+	 * @param ctx the parse tree
+	 */
+	void exitTests(Autom2cParser.TestsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Autom2cParser#test}.
+	 * @param ctx the parse tree
+	 */
+	void enterTest(Autom2cParser.TestContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Autom2cParser#test}.
+	 * @param ctx the parse tree
+	 */
+	void exitTest(Autom2cParser.TestContext ctx);
 }

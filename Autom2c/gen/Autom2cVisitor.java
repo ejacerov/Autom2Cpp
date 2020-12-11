@@ -70,9 +70,27 @@ public interface Autom2cVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitActions(Autom2cParser.ActionsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Autom2cParser#prints}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrints(Autom2cParser.PrintsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Autom2cParser#print}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPrint(Autom2cParser.PrintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Autom2cParser#tests}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTests(Autom2cParser.TestsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Autom2cParser#test}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTest(Autom2cParser.TestContext ctx);
 }

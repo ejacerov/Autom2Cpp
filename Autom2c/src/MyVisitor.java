@@ -250,15 +250,17 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
     public T visitActions(Autom2cParser.ActionsContext ctx) {
         Final_data+= "// Executing actions for automatas \n"+
         "int main(){ \n";
-
         if(ctx.END()!=null)
         {
             Final_data+="printf(\"automatas have been declared. Nothing to do \");\n";
         }
-        if(ctx.print()!=null)
+        if(ctx.prints()!=null)
         {
-            for(int i=0;i<ctx.print().size();i++)
-            visitPrint(ctx.print(i));
+            //int nprints=ctx.prints().size();
+            //System.out.println(nprints+"size");
+          //  for(int i=0;i<nprints;i++) {
+                visitPrints(ctx.prints());
+          //  }
         }
         Final_data+="}";
 
@@ -270,10 +272,20 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        return null;//super.visitActions(ctx);
+    }
+
+    @Override
+    public T visitPrints(Autom2cParser.PrintsContext ctx) {
+        int sizes=ctx.print().size();
+        for (int i=0;i<sizes; i++)
+        {
+        visitPrint(ctx.print(i));
+        }
         return null;
     }
 
-   @Override
+    @Override
     public T visitPrint(Autom2cParser.PrintContext ctx) {
         String printTag=ctx.ID().getText();
         Object printRes;

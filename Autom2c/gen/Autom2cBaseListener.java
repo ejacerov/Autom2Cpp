@@ -135,6 +135,18 @@ public class Autom2cBaseListener implements Autom2cListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrints(Autom2cParser.PrintsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrints(Autom2cParser.PrintsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrint(Autom2cParser.PrintContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -142,6 +154,30 @@ public class Autom2cBaseListener implements Autom2cListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrint(Autom2cParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTests(Autom2cParser.TestsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTests(Autom2cParser.TestsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTest(Autom2cParser.TestContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTest(Autom2cParser.TestContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
