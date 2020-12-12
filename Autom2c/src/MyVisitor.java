@@ -19,6 +19,8 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
     String Aut_tag="auto_";
     String n_states="_states";
     String n_events="_events";
+    String auxint="_naux";
+    String auxstr="_saux";
     //String Autonm;
     int currentTrans;
     HashMap<String, Object> table = new HashMap<>();
@@ -246,22 +248,15 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
 
     }
 
+    // use first transition event as initial rule. test code made on a2 to check if I can build test function
     @Override
     public T visitActions(Autom2cParser.ActionsContext ctx) {
         Final_data+= "// Executing actions for automatas \n"+
         "int main(){ \n";
-        if(ctx.END()!=null)
-        {
-            Final_data+="printf(\"automatas have been declared. Nothing to do \");\n";
-        }
-        if(ctx.prints()!=null)
-        {
-            //int nprints=ctx.prints().size();
-            //System.out.println(nprints+"size");
-          //  for(int i=0;i<nprints;i++) {
-                visitPrints(ctx.prints());
-          //  }
-        }
+       for(int a=0;a<ctx.action().size();a++)
+       {
+           visitAction(ctx.action(a));
+       }
         Final_data+="}";
 
         try {
@@ -273,6 +268,24 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
             e.printStackTrace();
         }
         return null;//super.visitActions(ctx);
+    }
+
+    @Override
+    public T visitAction(Autom2cParser.ActionContext ctx) {
+
+        if(ctx.prints()!=null)
+        {
+            //int nprints=ctx.prints().size();
+            //System.out.println(nprints+"size");
+            //  for(int i=0;i<nprints;i++) {
+            visitPrints(ctx.prints());
+            //  }
+        }
+        if(ctx.tests()!=null)
+        {
+            visitTests(ctx.tests());
+        }
+        return null;
     }
 
     @Override
@@ -307,5 +320,68 @@ public class MyVisitor<T> extends  Autom2cBaseVisitor<T> {
       }
 
         return null;
+    }
+
+    @Override
+    public T visitTests(Autom2cParser.TestsContext ctx) {
+        for(int a=0; a<ctx.test().size();a++)
+        {
+            visitTest(ctx.test(a));
+        }
+        return null;
+    }
+
+    @Override
+    public T visitTest(Autom2cParser.TestContext ctx) {
+        String testTag=ctx.testnm().ID().getText();
+       // System.out.println("tag " +testTag);
+        if(table.get(Aut_tag+ testTag)==null)
+        {
+            System.out.println("El automata "+testTag+" no existe \n");
+            System.exit(-1);
+        }
+
+        Final_data+="//Testing automata "+testTag+" \nint "+testTag+auxint+"=0;\n"+
+        "string "+testTag+auxstr+";\n";
+        String forcycle="for(int a=1; a< "+testTag+strans+"; a++ ){\n";
+        Final_data+="cout<<\"Estado Inicial: \"<<"+testTag+sRule+"[0][0]<<\"\\n\" ; \n";
+        String datatest="";
+        for(int a=0;a<ctx.ID().size();a++)
+        {
+            if(a!=(ctx.ID().size()-1))
+            {
+                datatest+=ctx.ID(a).getText()+", ";
+            }
+            else
+            {
+                datatest+=ctx.ID(a).getText();
+            }
+        }
+        Final_data+="printf(\" Probando la cadena : "+datatest+"\\n\");\n";
+        for(int a =0;a<ctx.ID().size();a++)
+        {
+            Final_data+="if ("+testTag+ev_tag+ctx.ID(a).getText()+"==" + testTag+sRule+"[1]["+testTag+auxint +"]){\n"
+                    +forcycle+testTag+auxstr+".clear();\n"
+                    +"if("+testTag +sRule+"[2]["+testTag+auxint+"]=="+testTag+sRule+"[0][a]){\n"
+                    +testTag+auxint+"=a;\n"+testTag+auxstr+"="+testTag+sRule+"[0][a];\n"
+                    +"cout<<\"Transicion al estado: \"<<"+testTag+auxstr+"<<\" \\n \"; \n";
+            if(a==ctx.ID().size()-1)
+            {
+                Final_data+="printf(\"Fin de la cadena, valida para el automata "+testTag+" \\n \" );\n";
+            }
+            Final_data+="break;\n}}";
+        }
+        int a =ctx.ID().size();
+        String currEv;
+        while(a!=0)
+        {
+            //currEv=ctx.ID(a).getText();
+            Final_data += "}";
+            Final_data+="else {\n printf(\" el evento en la posicion "+ a +" no lleva a ningun estado\");\n}\n";
+            a--;
+        }
+
+        return null;
+
     }
 }

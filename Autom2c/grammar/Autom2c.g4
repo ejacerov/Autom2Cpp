@@ -3,7 +3,7 @@ grammar Autom2c;
 //Automata Structure
 
 
-automata : (autonm '{' state_set+ event_set+ transitions+ '}' )+ actions+;// state_set   (selfloop| transition)+'}';
+automata : (autonm '{' state_set+ event_set+ transitions+ '}' )+ actions;// state_set   (selfloop| transition)+'}';
 state_set:  (state)+; // (',' ID )* ';')+ ;
 event_set:  (event)+; //)(',' ID )* ';')+ ;
 event: EVENT ID ';';
@@ -12,11 +12,14 @@ autonm: TAG ATSGN ID;
 selfloop: 'loop' ID '(' ID ')' ';';
 transition: ('from' ID '(' ID ')' 'to' ID';')| ('loop' ID '(' ID ')' ';');
 transitions:transition+;
-actions:prints | tests |END; //| test ;
+actions:action+;
+action:prints | tests ; //| test ;
 prints:print+;
 print:'print' '(' ID ')' ';';
 tests:test+;
-test:'@' ID '('ID(','ID)*')' ';';
+test: testnm '('ID(','ID)*')' ';';
+testnm: '@' ID ;
+//TESTNM:'@' ID ;
 TAG:'Automata';
 ATSGN : '@';
 STATE:'estado';
